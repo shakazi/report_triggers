@@ -3,7 +3,6 @@ import botocore
 from datetime import datetime, timezone
 import img2pdf as converter
 import os, fitz
-import PySimpleGUI as psg
 
 _bucket='image-reuse-test'
 s3 = boto3.client("s3")
