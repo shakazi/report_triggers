@@ -51,6 +51,7 @@ def upload_and_delete(pdf_address):
     name = pdf_address.split('/')[-1]
     s3 = boto3.resource('s3')
     s3.meta.client.upload_file(pdf_address, _bucket, 'dump/'+name)
+    print('pdf_uploaded ::', pdf_address)
 
 def generate_pdf2(imglist,claim_no):
     doc = fitz.open()  # PDF with the pictures
@@ -97,10 +98,6 @@ def main(event,context):
     "statusCode": 200,
     "body": "Success"
     }
-        # generate_pdf(imagelist,item)
-    # imgdir = './tmp'
-    # imglist = os.listdir(imgdir)
-    # generate_pdf2(imglist)
 
 if __name__=="__main__":
     main(0,0)
