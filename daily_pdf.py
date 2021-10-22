@@ -9,17 +9,13 @@ s3 = boto3.client("s3")
 today = datetime.now(timezone.utc)
 today = today.strftime('%y-%m-%d')
 print(today)
-count =0
 
 def download_from_s3(bucket, key, filename):
-    global count
-    count = count + 1
-    str_count = str(count)
     s3_resource = boto3.resource('s3')
     arr_key = key.split('/')
     filename = str(arr_key[-1])
     try:
-        s3_resource.Bucket(bucket).download_file(key, './tmp/'+ filename)
+        s3_resource.Bucket(bucket).download_file(key, '/tmp/'+ filename)
     except botocore.exceptions.ClientError as e:
         if e.response['Error']['Code'] == "404":
             print("The object does not exist.")
@@ -73,7 +69,7 @@ def generate_pdf2(imglist,claim_no):
         page.show_pdf_page(rect, imgPDF, 0)  # image fills the page
         # psg.EasyProgressMeter("Import Images",  # show our progress
         #     i+1, imgcount)
-    pdf_address = './tmp/'+str(claim_no)+'combined.pdf'
+    pdf_address = '/tmp/'+str(claim_no)+'combined.pdf'
     doc.save(pdf_address)
     upload_and_delete(pdf_address)
 
@@ -94,8 +90,13 @@ def main(event,context):
             print(address)
             file = address.split("/")[-1]
             download_from_s3(_bucket, address, file)
-            imagelist.append('./tmp/'+file)
+            imagelist.append('/tmp/'+file)
             generate_pdf2(imagelist,item)
+    
+    return {
+    "statusCode": 200,
+    "body": "Success"
+    }
         # generate_pdf(imagelist,item)
     # imgdir = './tmp'
     # imglist = os.listdir(imgdir)
