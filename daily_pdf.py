@@ -42,21 +42,15 @@ def get_matching_s3_keys(bucket, prefix='', suffix=''):
         except KeyError:
             break
 
-# def generate_pdf(imagelist,claim_no):
-#     outputFile = open(str(claim_no)+'.pdf','wb')
-#     outputFile.write(converter.convert(imagelist))
-#     outputFile.close()
-
 def upload_and_delete(pdf_address):
     name = pdf_address.split('/')[-1]
     s3 = boto3.resource('s3')
     s3.meta.client.upload_file(pdf_address, _bucket, 'dump/'+name)
     print('pdf_uploaded ::', pdf_address)
 
-def generate_pdf2(imglist,claim_no):
+def generate_pdf(imglist,claim_no):
     doc = fitz.open()  # PDF with the pictures
     imgdir = ""  # where the pics are
-    # imglist = os.listdir(imgdir)  # list of them
     imgcount = len(imglist)  # pic count
 
     for i, f in enumerate(imglist):
@@ -92,7 +86,7 @@ def main(event,context):
             file = address.split("/")[-1]
             download_from_s3(_bucket, address, file)
             imagelist.append('/tmp/'+file)
-            generate_pdf2(imagelist,item)
+            generate_pdf(imagelist,item)
     
     return {
     "statusCode": 200,
