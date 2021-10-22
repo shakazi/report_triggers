@@ -1,8 +1,8 @@
 import boto3
 import botocore
 from datetime import datetime, timezone
-import img2pdf as converter
-import os, fitz
+import os
+import fitz
 
 _bucket='image-reuse-test'
 s3 = boto3.client("s3")
@@ -46,10 +46,10 @@ def get_matching_s3_keys(bucket, prefix='', suffix=''):
         except KeyError:
             break
 
-def generate_pdf(imagelist,claim_no):
-    outputFile = open(str(claim_no)+'.pdf','wb')
-    outputFile.write(converter.convert(imagelist))
-    outputFile.close()
+# def generate_pdf(imagelist,claim_no):
+#     outputFile = open(str(claim_no)+'.pdf','wb')
+#     outputFile.write(converter.convert(imagelist))
+#     outputFile.close()
 
 def upload_and_delete(pdf_address):
     name = pdf_address.split('/')[-1]

@@ -16,9 +16,9 @@ plugins:
 
 service: myservice
 
-# custom:
-#   pythonRequirements:
-#     dockerizePip: non-linux
+custom:
+  pythonRequirements:
+    dockerizePip: non-linux
 
 # app and org for use with dashboard.serverless.com
 #app: your-app-name
@@ -66,7 +66,6 @@ package:
     - '!.github/**'
     - '!.vscode/**'
     - '!coverage/**'
-    - '!*'
     - '!venv/**'
 
 
