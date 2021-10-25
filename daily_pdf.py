@@ -42,7 +42,7 @@ def get_matching_s3_keys(bucket, prefix='', suffix=''):
         except KeyError:
             break
 
-def upload_and_delete(pdf_address):
+def upload_pdf(pdf_address):
     name = pdf_address.split('/')[-1]
     s3 = boto3.resource('s3')
     s3.meta.client.upload_file(pdf_address, _bucket, 'dump/'+name)
@@ -62,11 +62,9 @@ def generate_pdf(imglist,claim_no):
         page = doc.new_page(width = rect.width,  # new page with ...
                         height = rect.height)  # pic dimension
         page.show_pdf_page(rect, imgPDF, 0)  # image fills the page
-        # psg.EasyProgressMeter("Import Images",  # show our progress
-        #     i+1, imgcount)
     pdf_address = '/tmp/'+str(claim_no)+'combined.pdf'
     doc.save(pdf_address)
-    upload_and_delete(pdf_address)
+    upload_pdf(pdf_address)
 
 def main(event,context):
     all_keys= list(get_matching_s3_keys(_bucket, suffix=('.jpg','.JPG','.png','.PNG','.jpeg','.JPEG')))
