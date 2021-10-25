@@ -35,7 +35,7 @@ def get_matching_s3_keys(bucket, prefix='', suffix=''):
             date = obj['LastModified']
             date = str(date.strftime('%y-%m-%d'))
             ans = [key, date]
-            if key.startswith(prefix) and key.endswith(suffix): #and date == today
+            if key.startswith(prefix) and key.endswith(suffix): #and date == today   ADD THIS WHEN FINAL DEPLOYMENT
                 yield ans
         try:
             kwargs['ContinuationToken'] = resp['NextContinuationToken']
